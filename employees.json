@@ -1,0 +1,7 @@
+[
+    {"id": 1, "emp_code": "E001", "name": "John Doe"},
+    {"id": 2, "emp_code": "E002", "name": "Jane Smith"},
+    {"id": 3, "emp_code": "E003", "name": "Michael Johnson"},
+    {"id": 4, "emp_code": "E004", "name": "Emily Williams"},
+    {"id": 5, "emp_code": "E005", "name": "David Brown"}
+]
