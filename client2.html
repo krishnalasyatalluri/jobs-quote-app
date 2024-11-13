@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+
+        </title>
+
+    </head>
+    <body>
+        <div id="root">
+
+        </div>
+        <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.25.0/babel.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.5.0/axios.min.js" integrity="sha512-aoTNnqZcT8B4AmeCFmiSnDlc4Nj/KPaZyB5G7JnOnUEkdNpCZs1LCankiYi01sLTyWy+m2P+W4XM+BuQ3Q4/Dg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script type="text/babel">
+            const rootHandle=document.getElementById("root")
+            const {useState,useEffect}=React 
+            // const value=prompt('enter a value')
+            // const formData={
+            //     input:value 
+            // }
+
+            // axios.post('http://localhost:5008/api/stats',formData)
+                // .then((res)=>{
+                //     console.log(res.data)
+                // })
+                // .catch((err)=>{
+                //     console.log(err)
+                // })
+            function TableFormat(props){
+                const {data}=props 
+                return(
+                    <div>
+                        <table border="1">
+                            <thead>
+                                <tr>
+                                    {Object.keys(data).map((ele)=>{
+                                        return <th>{ele}</th>
+                                    })}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{data.id}</td>
+                                    <td>{data.lowercase}</td>
+                                    <td>{data.uppercase}</td>
+                                    <td>{data.ascii_Code}</td>
+                                    <td>{data.isVowel}</td>
+                                    
+                                    
+                                </tr>
+                            </tbody>
+                        </table>
+                            
+
+                    </div>
+                )
+            }
+            function Form(props){
+                const [char,setChar]=useState('')
+                const {handleResponse}=props
+                const handleCharChange=(e)=>{
+                    const value=e.target.value
+                    setChar(value)
+                }
+                const handleSubmit=(e)=>{
+                    e.preventDefault()
+                    axios.post('http://localhost:5008/api/stats',{input:char})
+                        .then((res)=>{
+                            handleResponse(res.data)
+                        })
+                        .catch((err)=>{
+                            console.log(err)
+                        })
+
+
+                        
+            
+                }
+                return(
+                    <div>
+                        <form onSubmit={handleSubmit}>
+                            <label>enter a character</label><br></br>
+                            <input type="text" value={char} onChange={handleCharChange}/><br></br>
+                            <input type="submit"/>
+                        </form>
+                    </div>
+                )
+            }
+            function App(props){
+                const [data,setData]=useState('')
+                const handleResponse=(resData)=>{
+                    const result=resData
+                    setData(result)
+
+                }
+                return(
+                    <div>
+                        <Form handleResponse={handleResponse}/>
+                        {Object.keys(data).length>0?<TableFormat data={data}/>:''}
+                    </div>
+                )
+
+            }
+            ReactDOM.render(<App />,rootHandle)
+
+
+        </script>
+
+    </body>
+</html>

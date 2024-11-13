@@ -1,0 +1,47 @@
+const express=require('express')
+const app=express()
+//configuration- enable express to parse incoming json data
+app.use(express.json())
+const port=6002
+const customers=[
+    {id:1,name:'lasya'},
+    {id:2,name:'krishna'}
+]
+//request handlers
+//syntax: app.httpmethod(url,callback)
+app.get('/',(req,res)=>{
+    res.send('welcome to website')
+    
+})
+app.get('/customers',(req,res)=>{
+    res.json(customers)
+})
+//finding customer based on id
+app.get('/customers/:id',(req,res)=>{
+    const id=req.params.id
+    const customer=customers.find(customer =>customer.id==id)
+    if(customer){
+        res.json(customer)
+    }
+    else{
+        res.json({})
+    }
+})
+//post create
+app.post('/customers',(req,res)=>{
+    const body=req.body
+    res.json(body)
+})
+//put
+app.put('/customers/:id',(req,res)=>{
+    const id=req.params.id
+    res.send(` id updated`)
+})
+//delete
+app.delete('/customers/:id',(req,res)=>{
+    const id=req.params.id
+    res.send(` deleted `)
+})
+app.listen(port,()=>{
+    console.log('server running on port',port)
+})
